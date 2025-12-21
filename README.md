@@ -25,7 +25,7 @@ Demonstration moderner Java-Entwicklung für den öffentlichen Dienst mit Fokus 
 ## 📁 Projektstruktur
 
 smart-civic-registry/
-       ├── docs/ # Projektdokumentation
-       ├── src/ # Quellcode (hexagonale Architektur)
-       ├── docker/ # Container-Konfiguration
-       └── scripts/ # Entwicklungsskripte
+├── docs/ # Projektdokumentation
+├── src/ # Quellcode (hexagonale Architektur)
+├── docker/ # Container-Konfiguration
+└── scripts/ # Entwicklungsskripte
