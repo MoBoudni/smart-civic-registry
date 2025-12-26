@@ -1,21 +1,21 @@
 # Funktionale Anforderungen
 
 ## FR-01: Personenverwaltung
-- Personen anlegen, bearbeiten, löschen (soft delete)
-- Suche mit verschiedenen Kriterien
-- Datenexport für Berichte
+- CRUD Operationen für natürliche Personen
+- Suche und Filterung
+- Datenvalidierung und -export
 
-## FR-02: Organisationsverwaltung  
-- Organisationen verwalten
-- Personen-Organisation Beziehungen
-- Hierarchien abbilden
+## FR-02: Organisationsverwaltung
+- Verwaltung juristischer Personen
+- Beziehungen zu natürlichen Personen
+- Hierarchische Strukturen
 
 ## FR-03: Antragsmanagement
 - Digitale Antragstellung
-- Workflow mit Status
-- Dokumentenmanagement
+- Workflow mit Statusübergängen
+- Dokumenten-Anhänge
 
-## FR-04: Benutzerverwaltung
-- Rollenbasierte Zugriffskontrolle
-- JWT Authentifizierung
-- Passwort-Self-Service
+## FR-04: Sicherheit & Benutzerverwaltung
+- JWT-basierte Authentifizierung
+- Rollenbasierte Autorisierung (RBAC)
+- Audit-Logging und DSGVO-Compliance
