@@ -1,0 +1,201 @@
+# ============================================
+# Smart Civic Registry - Application Configuration
+# ============================================
+
+spring:
+  application:
+    name: smart-civic-registry
+  
+  # Server Configuration
+  main:
+    banner-mode: off
+  
+  # Database Configuration (Development)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smartcivicregistry
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 5
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Use validate in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+    show-sql: true  # Only for development
+  
+  # Flyway Database Migration
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+  
+  # Security JWT Configuration
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:development-secret-key-change-in-production}
+      expiration: 900000  # 15 minutes in milliseconds
+      refresh-token:
+        expiration: 604800000  # 7 days in milliseconds
+
+# Application Configuration
+app:
+  version: 0.1.0
+  name: Smart Civic Registry
+  
+  # Security Settings
+  security:
+    password-strength:
+      min-length: 8
+      require-uppercase: true
+      require-lowercase: true
+      require-digit: true
+      require-special-char: true
+    
+    # Rate Limiting
+    rate-limit:
+      login:
+        attempts: 5
+        duration: 900  # 15 minutes in seconds
+    
+    # Session Management
+    session:
+      timeout: 1800  # 30 minutes in seconds
+  
+  # Audit Logging
+  audit:
+    enabled: true
+    retention-days: 180  # 6 months
+    
+  # API Configuration
+  api:
+    version: v1
+    base-path: /api/${app.api.version}
+    cors:
+      allowed-origins: http://localhost:3000,http://localhost:8080
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+
+# Logging Configuration
+logging:
+  level:
+    de.behoerde.smartcivicregistry: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/application.log
+    max-size: 10MB
+    max-history: 30
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Management Endpoints (Spring Boot Actuator)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /management
+      path-mapping:
+        health: healthcheck
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+# OpenAPI/Swagger Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+# Profile-specific configurations will be in separate files
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    de.behoerde.smartcivicregistry: DEBUG
+    org.springframework: DEBUG
+
+---
+# Test Profile
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smartcivicregistry_test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+logging:
+  level:
+    de.behoerde.smartcivicregistry: INFO
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET}  # Must be set as environment variable
+logging:
+  level:
+    de.behoerde.smartcivicregistry: INFO
+    org.springframework: WARN
