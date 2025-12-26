@@ -26,4 +26,8 @@ Zentrale, DSGVO-konforme Stammdatenverwaltung für öffentliche Verwaltungen.
 **Out of Scope**: Bürgerportal, Mobile App, KI-Features
 
 ---
+<<<<<<< HEAD
 Autor: Mo Boudni | Version: 1.0 | Datum: 26.12.2025
+=======
+Autor: Mo Boudni | Version: 1.0 | Datum: 26.12.2025
+>>>>>>> c79b52c8af329ccce3e9339ce11f6ed0bf3cc7a0

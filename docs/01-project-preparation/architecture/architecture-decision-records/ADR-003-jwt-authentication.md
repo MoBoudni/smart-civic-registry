@@ -1,39 +1,43 @@
-# ADR-003: JWT-basierte Authentifizierung und Autorisierung
+_ADR-003: JWT-basierte Anmeldung (Authentifizierung) und Rechteprüfung (Autorisierung)_
 
-## Status
-✅ Angenommen am 25.12.2025
+**Status**
+Genehmigt am 25.12.2025
 
-## Kontext
-Das "Smart Civic Registry" System verwaltet sensible personenbezogene Daten gemäß DSGVO. Es benötigt eine sichere Authentifizierungslösung für:
 
-### Anwendungsfälle:
-1. **Beamte/Sachbearbeiter**: Zugriff auf Personen- und Organisationsdaten
-2. **System-zu-System Kommunikation**: API Zugriff für Integrationen
-3. **Bürger-Selbstservice**: Geplante Erweiterung für Bürgerportal
+**Kontext**
+Das System "Smart Civic Registry" speichert persönliche Daten. Diese Daten müssen nach DSGVO 
+geschützt werden. Wir brauchen eine sichere Anmeldung für:
 
-### Sicherheitsanforderungen:
-- **DSGVO Compliance**: Schutz personenbezogener Daten
-- **Revisionssicherheit**: Nachvollziehbare Zugriffsprotokolle
-- **Rollenbasierte Zugriffskontrolle**: Unterschiedliche Berechtigungen je Rolle
-- **Stateless Architektur**: Skalierbarkeit für mögliche hohe Last
+Anwendungsfälle:
+1. Beamte und Sachbearbeiter brauchen Zugang zu Personen- und Organisationsdaten.
+2. Systeme kommunizieren über APIs.
+3. Bürger sollen später ein eigenes Portal nutzen können.
 
-### Technische Constraints:
-- **Spring Boot 3.2** als Basis-Framework
-- **RESTful API** als primäre Schnittstelle
-- **Frontend-Agnostisch**: Muss mit verschiedenen Frontends kompatibel sein
-- **Einfache Integration**: In bestehende Behörden-IT-Landschaften
+Sicherheitsanforderungen:
+- Wir schützen persönliche Daten nach DSGVO.
+- Alle Zugriffe werden protokolliert und können geprüft werden.
+- Der Zugang hängt von der Rolle des Nutzers ab.
+- Das System arbeitet ohne Zustand, um gut zu skalieren.
 
-## Entscheidung
-Wir implementieren **JWT (JSON Web Tokens) basierte Authentifizierung** mit folgender Architektur:
+Technische Bedingungen:
+- Wir nutzen Spring Boot 3.2 als Basis.
+- Die API ist im REST-Stil gebaut.
+- Das Frontend kann verschieden sein.
+- Die Lösung muss leicht in bestehende IT-Systeme passen.
 
-### 1. Token Strategie (Dual-Token Approach)
-- **Access Token**: Kurzlebig (15-30 Minuten), für API-Zugriff
-- **Refresh Token**: Langlebig (7 Tage), gesichert gespeichert, für Token-Erneuerung
-- **Logout Mechanismus**: Token Invalidation durch Blacklisting/Whitelisting
+**Entscheidung**
+Wir verwenden JWT (JSON Web Tokens) für die Anmeldung. Die Architektur ist wie folgt:
 
-### 2. JWT Implementation Details
-```yaml
-# Token Struktur (Claims)
+1. Token-Plan (Zwei Token)
+
+- Access Token: Gültig für 15 bis 30 Minuten, für API-Zugriff.
+- Refresh Token: Gültig für 7 Tage, wird sicher gespeichert und erneuert das Access Token.
+- Logout: Tokens werden ungültig gemacht durch Blacklist oder Whitelist.
+
+2. JWT Implementation Details
+
+ Token Struktur (Claims):
+
 access_token:
   typ: "JWT"
   alg: "HS256"  # HMAC mit SHA-256
