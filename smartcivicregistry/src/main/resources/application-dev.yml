@@ -1,0 +1,24 @@
+# src/main/resources/application-dev.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smart_civic_registry_dev
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-dev.sql
+
+logging:
+  level:
+    de.behoerde.smartcivicregistry: TRACE
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    tryItOutEnabled: true
