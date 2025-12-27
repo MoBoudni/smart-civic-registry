@@ -1,0 +1,181 @@
+warning: in the working copy of 'pom.xml', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex 9cfe9a8..eafd0eb 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -1,105 +1,200 @@[m
+ <?xml version="1.0" encoding="UTF-8"?>[m
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"[m
+[31m-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">[m
+[31m-	<modelVersion>4.0.0</modelVersion>[m
+[31m-	<parent>[m
+[31m-		<groupId>org.springframework.boot</groupId>[m
+[31m-		<artifactId>spring-boot-starter-parent</artifactId>[m
+[31m-		<version>3.5.9</version>[m
+[31m-		<relativePath/> <!-- lookup parent from repository -->[m
+[31m-	</parent>[m
+[31m-	<groupId>de.behoerde</groupId>[m
+[31m-	<artifactId>smartcivicregistry</artifactId>[m
+[31m-	<version>0.0.1-SNAPSHOT</version>[m
+[31m-	<name>smart-civic-registry</name>[m
+[31m-	<description>Smart Civic Registry System</description>[m
+[31m-	<url/>[m
+[31m-	<licenses>[m
+[31m-		<license/>[m
+[31m-	</licenses>[m
+[31m-	<developers>[m
+[31m-		<developer/>[m
+[31m-	</developers>[m
+[31m-	<scm>[m
+[31m-		<connection/>[m
+[31m-		<developerConnection/>[m
+[31m-		<tag/>[m
+[31m-		<url/>[m
+[31m-	</scm>[m
+[31m-	<properties>[m
+[31m-		<java.version>17</java.version>[m
+[31m-	</properties>[m
+[31m-	<dependencies>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-actuator</artifactId>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-data-jpa</artifactId>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-security</artifactId>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-validation</artifactId>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-web</artifactId>[m
+[31m-		</dependency>[m
+[32m+[m[32m         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">[m
+[32m+[m[32m    <modelVersion>4.0.0</modelVersion>[m
+[32m+[m[32m    <parent>[m
+[32m+[m[32m        <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m        <artifactId>spring-boot-starter-parent</artifactId>[m
+[32m+[m[32m        <version>3.5.9</version>[m
+[32m+[m[32m        <relativePath/> <!-- lookup parent from repository -->[m
+[32m+[m[32m    </parent>[m
+[32m+[m[32m    <groupId>de.behoerde</groupId>[m
+[32m+[m[32m    <artifactId>smartcivicregistry</artifactId>[m
+[32m+[m[32m    <version>0.0.1-SNAPSHOT</version>[m
+[32m+[m[32m    <name>smart-civic-registry</name>[m
+[32m+[m[32m    <description>Smart Civic Registry System for government administration</description>[m
+ [m
+[31m-		<dependency>[m
+[31m-			<groupId>org.postgresql</groupId>[m
+[31m-			<artifactId>postgresql</artifactId>[m
+[31m-			<scope>runtime</scope>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.projectlombok</groupId>[m
+[31m-			<artifactId>lombok</artifactId>[m
+[31m-			<optional>true</optional>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.boot</groupId>[m
+[31m-			<artifactId>spring-boot-starter-test</artifactId>[m
+[31m-			<scope>test</scope>[m
+[31m-		</dependency>[m
+[31m-		<dependency>[m
+[31m-			<groupId>org.springframework.security</groupId>[m
+[31m-			<artifactId>spring-security-test</artifactId>[m
+[31m-			<scope>test</scope>[m
+[31m-		</dependency>[m
+[31m-	</dependencies>[m
+[32m+[m[32m    <properties>[m
+[32m+[m[32m        <java.version>17</java.version>[m
+[32m+[m[32m        <jjwt.version>0.11.5</jjwt.version>[m
+[32m+[m[32m        <mapstruct.version>1.5.5.Final</mapstruct.version>[m
+[32m+[m[32m        <testcontainers.version>1.19.3</testcontainers.version>[m
+[32m+[m[32m        <!-- 🔒 AKTUELLE SICHERE VERSIONEN -->[m
+[32m+[m[32m        <commons-lang3.version>3.14.0</commons-lang3.version>  <!-- Stabile, sichere Version (3.17.0 hat CVE) -->[m
+[32m+[m[32m        <commons-compress.version>1.26.2</commons-compress.version>  <!-- Sicher: CVE-2024-25710 & CVE-2024-26308 behoben -->[m
+[32m+[m[32m    </properties>[m
+ [m
+[31m-	<build>[m
+[31m-		<plugins>[m
+[31m-			<plugin>[m
+[31m-				<groupId>org.apache.maven.plugins</groupId>[m
+[31m-				<artifactId>maven-compiler-plugin</artifactId>[m
+[31m-				<configuration>[m
+[31m-					<annotationProcessorPaths>[m
+[31m-						<path>[m
+[31m-							<groupId>org.projectlombok</groupId>[m
+[31m-							<artifactId>lombok</artifactId>[m
+[31m-						</path>[m
+[31m-					</annotationProcessorPaths>[m
+[31m-				</configuration>[m
+[31m-			</plugin>[m
+[31m-			<plugin>[m
+[31m-				<groupId>org.springframework.boot</groupId>[m
+[31m-				<artifactId>spring-boot-maven-plugin</artifactId>[m
+[31m-				<configuration>[m
+[31m-					<excludes>[m
+[31m-						<exclude>[m
+[31m-							<groupId>org.projectlombok</groupId>[m
+[31m-							<artifactId>lombok</artifactId>[m
+[31m-						</exclude>[m
+[31m-					</excludes>[m
+[31m-				</configuration>[m
+[31m-			</plugin>[m
+[31m-		</plugins>[m
+[31m-	</build>[m
+[32m+[m[32m    <dependencies>[m
+[32m+[m[32m        <!-- Spring Boot Starters -->[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-actuator</artifactId>[m
+[32m+[m[32m            <!-- 🔒 Überschreibe transitive commons-lang3 Version -->[m
+[32m+[m[32m            <exclusions>[m
+[32m+[m[32m                <exclusion>[m
+[32m+[m[32m                    <groupId>org.apache.commons</groupId>[m
+[32m+[m[32m                    <artifactId>commons-lang3</artifactId>[m
+[32m+[m[32m                </exclusion>[m
+[32m+[m[32m            </exclusions>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-data-jpa</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-security</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-validation</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-web</artifactId>[m
+[32m+[m[32m        </dependency>[m
+ [m
+[31m-</project>[m
+[32m+[m[32m        <!-- Database -->[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.postgresql</groupId>[m
+[32m+[m[32m            <artifactId>postgresql</artifactId>[m
+[32m+[m[32m            <scope>runtime</scope>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.flywaydb</groupId>[m
+[32m+[m[32m            <artifactId>flyway-core</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.flywaydb</groupId>[m
+[32m+[m[32m            <artifactId>flyway-database-postgresql</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m
+[32m+[m[32m        <!-- JWT Authentication -->[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>io.jsonwebtoken</groupId>[m
+[32m+[m[32m     
