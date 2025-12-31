@@ -19,6 +19,9 @@
         <jjwt.version>0.11.5</jjwt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <testcontainers.version>1.19.3</testcontainers.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 🔒 AKTUELLE SICHERE VERSIONEN -->
         <commons-lang3.version>3.14.0</commons-lang3.version>  <!-- Stabile, sichere Version (3.17.0 hat CVE) -->
         <commons-compress.version>1.26.2</commons-compress.version>  <!-- Sicher: CVE-2024-25710 & CVE-2024-26308 behoben -->
@@ -60,13 +63,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- H2 Database für Entwicklung (runtime) UND Tests (test) -->
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>  <!-- GEÄNDERT: von test zu runtime -->
         </dependency>
 
         <!-- JWT Authentication -->
@@ -195,6 +196,11 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering> </resource>
+        </resources>
     </build>
 
 </project>
