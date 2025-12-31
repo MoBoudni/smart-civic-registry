@@ -2,10 +2,14 @@ package de.behoerde.smartcivicregistry.security.auth.service;
 
 import de.behoerde.smartcivicregistry.security.auth.model.domain.User;
 import de.behoerde.smartcivicregistry.security.auth.model.domain.UserRole;
+import de.behoerde.smartcivicregistry.security.auth.model.dto.request.RegisterRequest;
+import de.behoerde.smartcivicregistry.security.auth.model.dto.request.LoginRequest;
+import de.behoerde.smartcivicregistry.security.auth.model.dto.response.AuthenticationResponse;
 import de.behoerde.smartcivicregistry.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,38 +23,44 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     
     public AuthenticationResponse register(RegisterRequest request) {
-        // Prüfe ob User bereits existiert
+        // Prüfen ob User bereits existiert
         if (userService.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("User mit dieser Email existiert bereits");
+            throw new IllegalArgumentException("User with this email already exists");
         }
         
-        // Erstelle neuen User
+        // User erstellen
         User user = User.builder()
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .firstName(request.getFirstName())
-            .lastName(request.getLastName())
-            .role(UserRole.ROLE_USER) // Standard-Rolle
-            .enabled(true)
-            .build();
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .role(UserRole.ROLE_USER)  // GEÄNDERT: UserRole.ROLE_USER
+                .enabled(true)
+                .build();
         
-        // Speichere User
+        // User speichern
         User savedUser = userService.save(user);
         
-        // Generiere JWT Token
-        String jwtToken = jwtService.generateToken(savedUser);
+        // JWT Token generieren
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(savedUser.getEmail())
+                .password(savedUser.getPassword())
+                .authorities(savedUser.getRole().name())
+                .build();
+        
+        String token = jwtService.generateToken(userDetails);
         
         return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .email(savedUser.getEmail())
-            .firstName(savedUser.getFirstName())
-            .lastName(savedUser.getLastName())
-            .role(savedUser.getRole())
-            .build();
+                .token(token)
+                .email(savedUser.getEmail())
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .role(savedUser.getRole())
+                .build();
     }
     
     public AuthenticationResponse login(LoginRequest request) {
-        // Authentifiziere mit Spring Security
+        // Authentifizierung durchführen
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
@@ -58,19 +68,25 @@ public class AuthenticationService {
             )
         );
         
-        // Lade User aus Datenbank
+        // User laden
         User user = userService.findByEmail(request.getEmail())
-            .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         
-        // Generiere JWT Token
-        String jwtToken = jwtService.generateToken(user);
+        // JWT Token generieren
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRole().name())
+                .build();
+        
+        String token = jwtService.generateToken(userDetails);
         
         return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .email(user.getEmail())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .role(user.getRole())
-            .build();
+                .token(token)
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .role(user.getRole())
+                .build();
     }
 }
