@@ -1,36 +1,45 @@
-// src/main/java/de/behoerde/smartcivicregistry/config/DatabaseConfig.java
 package de.behoerde.smartcivicregistry.config;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Optional;
 
 @Configuration
-@EnableTransactionManagement
-@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class DatabaseConfig {
+
+    @Value("${spring.datasource.jdbc-url:jdbc:h2:mem:civicdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL}")
+    private String jdbcUrl;
+
+    @Value("${spring.datasource.driver-class-name:org.h2.Driver}")
+    private String driverClassName;
+
+    @Value("${spring.datasource.username:sa}")
+    private String username;
+
+    @Value("${spring.datasource.password:}")
+    private String password;
 
     @Bean
     @Primary
-    @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        return DataSourceBuilder.create()
-                .type(HikariDataSource.class)
-                .build();
-    }
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(jdbcUrl);
+        config.setDriverClassName(driverClassName);
+        config.setUsername(username);
+        config.setPassword(password);
 
-    @Bean
-    public AuditorAware<String> auditorProvider() {
-        // Wird später mit SecurityContext gefüllt
-        return () -> Optional.of("system");
+        // HikariCP settings
+        config.setMinimumIdle(5);
+        config.setMaximumPoolSize(20);
+        config.setIdleTimeout(30000);
+        config.setMaxLifetime(2000000);
+        config.setConnectionTimeout(30000);
+
+        return new HikariDataSource(config);
     }
 }
