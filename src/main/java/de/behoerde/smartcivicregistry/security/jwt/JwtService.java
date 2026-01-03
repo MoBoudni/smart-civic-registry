@@ -89,4 +89,8 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    JwtProperties getJwtProperties() {
+        return jwtProperties;
+    }
 }
