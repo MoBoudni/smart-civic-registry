@@ -68,30 +68,55 @@ Demonstration moderner Java-Entwicklung für den öffentlichen Dienst mit Fokus 
 ## 📁 Projektstruktur (Hexagonale Architektur)
 
 smart-civic-registry/
+
 ├── src/main/java/de/behoerde/smartcivicregistry/
+
 │ ├── person/ # Person Domain Module (Phase 2)
+
 │ │ ├── domain/ # Domain Layer (Kern)
+
 │ │ │ ├── model/ # Entities & Value Objects
+
 │ │ │ └── repository/ # Repository Interfaces
+
 │ │ ├── application/ # Application Layer
+
 │ │ │ └── service/ # Application Services
+
 │ │ └── infrastructure/ # Infrastructure Layer (geplant)
+
 │ ├── security/ # Security Module (Phase 6)
+
 │ │ ├── auth/ # Authentifizierung
+
 │ │ ├── jwt/ # JWT Implementation
+
 │ │ ├── config/ # Security Konfiguration
+
 │ │ └── filter/ # Security Filter
+
 │ ├── common/ # Gemeinsame Komponenten
+
 │ │ ├── domain/ # Basisklassen (AuditableEntity)
+
 │ │ └── response/ # API Response Klassen
+
 │ ├── config/ # Spring Konfigurationen
+
 │ └── SmartCivicRegistryApplication.java
+
 ├── src/test/java/ # Test Suite
+
 ├── src/main/resources/
+
 │ ├── application.yml # Hauptkonfiguration
+
 │ └── application-test.yml # Test-Konfiguration
+
 ├── docs/ # Projektdokumentation
+
 ├── docker/ # Container-Konfiguration
+
 └── scripts/ # Entwicklungsskripte
 
 ## 🚀 Lokale Entwicklung
