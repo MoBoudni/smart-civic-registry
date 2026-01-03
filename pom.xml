@@ -19,12 +19,10 @@
         <jjwt.version>0.11.5</jjwt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <testcontainers.version>1.19.3</testcontainers.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- 🔒 AKTUELLE SICHERE VERSIONEN -->
-        <commons-lang3.version>3.14.0</commons-lang3.version>  <!-- Stabile, sichere Version (3.17.0 hat CVE) -->
-        <commons-compress.version>1.26.2</commons-compress.version>  <!-- Sicher: CVE-2024-25710 & CVE-2024-26308 behoben -->
+        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-compress.version>1.26.2</commons-compress.version>
     </properties>
 
     <dependencies>
@@ -32,7 +30,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <!-- 🔒 Überschreibe transitive commons-lang3 Version -->
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.commons</groupId>
@@ -63,11 +60,10 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- H2 Database für Entwicklung (runtime) UND Tests (test) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>  <!-- GEÄNDERT: von test zu runtime -->
+            <scope>runtime</scope>
         </dependency>
 
         <!-- JWT Authentication -->
@@ -107,15 +103,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- 🔒 EXPLIZITE SICHERE VERSIONEN -->
-        <!-- commons-lang3: Verwende 3.14.0 (stabil und sicher) statt 3.17.0 -->
+        <!-- Explicit Secure Versions -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
         </dependency>
-
-        <!-- commons-compress: 1.26.2 ist verfügbar und sicher -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
@@ -170,7 +163,6 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -199,8 +191,8 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering> </resource>
+                <filtering>false</filtering>
+            </resource>
         </resources>
     </build>
-
 </project>
