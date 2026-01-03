@@ -68,6 +68,7 @@ Demonstration moderner Java-Entwicklung für den öffentlichen Dienst mit Fokus 
 ## 📁 Projektstruktur (Hexagonale Architektur)
 
 smart-civic-registry/
+
 ├── src/main/java/de/behoerde/smartcivicregistry/
 │   ├── person/ # Person Domain Module (Phase 2)
 │   │   ├── domain/ # Domain Layer (Kern)
