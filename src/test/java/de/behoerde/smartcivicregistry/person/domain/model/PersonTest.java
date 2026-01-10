@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *   lastName: Pflichtfeld, muss immer gesetzt sein
  *   dateOfBirth: Pflichtfeld für Altersberechnung
  *   Optionale Felder (Titel, Adresse) werden bedarfsweise ergänzt
- *
+ 
  * @author Smart Civic Registry Team
  * @version 1.1
  * @since Phase 2 (Person Domain Module)
@@ -48,7 +48,7 @@ class PersonTest {
      *   vollständiger Name wird korrekt formatiert
      *   E-Mail-Adresse ist korrekt gesetzt
      *   Altersbezogene Eigenschaften werden korrekt berechnet
-     *
+     
      * @since 1.0
      */
     @Test
@@ -81,7 +81,7 @@ class PersonTest {
 
      * Wichtig: Alle Pflichtfelder (firstName, lastName, dateOfBirth)
      * müssen vor dem Aufruf von {@code build()} gesetzt sein.
-     *
+     
      * @since 1.0
      * @see Person#calculateAge()
      * @see Person#isAdult()
@@ -117,7 +117,7 @@ class PersonTest {
 
      * Eine Person mit 70 Jahren gilt als Senior und kann entsprechende
      * Dienste und Ermäßigungen in Anspruch nehmen.
-     *
+     
      * @since 1.0
      * @see Person#isSenior()
      */
@@ -153,7 +153,7 @@ class PersonTest {
 
      * Wichtig: Alle Pflichtfelder (firstName, lastName, dateOfBirth)
      * müssen vor den optionalen Adressfeldern gesetzt werden.
-     *
+     
      * @since 1.0
      * @see Person#getFullAddress()
      * @see Person#isGermanAddress()
@@ -193,7 +193,7 @@ class PersonTest {
 
      *   {@code getFullName()}: "Dr. Max Mustermann" (mit Titel)
      *   {@code getOfficialName()}: "Mustermann, Max" (ohne Titel)
-     *
+     
      * @since 1.0
      * @see Person#getFullName()
      * @see Person#getOfficialName()
@@ -231,8 +231,7 @@ class PersonTest {
      * Beispiel:
 
      * "Anna Maria Schmidt" für firstName="Anna", middleName="Maria", lastName="Schmidt"
-     * 
-     *
+     
      * @since 1.0
      * @see PersonName
      * @see Person#getFullName()
