@@ -23,7 +23,26 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-compress.version>1.26.2</commons-compress.version>
+        <!-- Spring AI Version -->
+        <spring-ai.version>0.8.1</spring-ai.version>
     </properties>
+
+    <!-- REPOSITORIES MÜSSEN VOR DEPENDENCIES DEFININIERT WERDEN -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <!-- Spring Milestone Repository FÜR SPRING AI -->
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -121,6 +140,39 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
         </dependency>
+
+        <!-- ========== SPRING AI DEPENDENCIES (OPTIONAL) ========== -->
+        <!--
+        WICHTIG: Spring AI ist optional. Falls Sie Build-Probleme haben,
+        können Sie diese Dependencies auskommentieren und später hinzufügen.
+        -->
+
+        <!-- OpenAI Integration (für ChatGPT, GPT-4) -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+            <version>${spring-ai.version}</version>
+            <optional>true</optional> <!-- Optional für jetzt -->
+        </dependency>
+
+        <!-- ODER: Ollama für lokale/open-source Modelle (Llama2, Mistral, etc.) -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
+            <version>${spring-ai.version}</version>
+            <optional>true</optional>
+        </dependency>
+        -->
+
+        <!-- ODER: Azure OpenAI -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-azure-openai-spring-boot-starter</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        -->
 
         <!-- Testing -->
         <dependency>
