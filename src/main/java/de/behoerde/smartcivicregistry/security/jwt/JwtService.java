@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,22 +30,22 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaims, org.springframework.security.core.userdetails.UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtProperties.getExpiration());
     }
-    
+
     private String buildToken(
             Map<String, Object> extraClaims,
             org.springframework.security.core.userdetails.UserDetails userDetails,
             long expiration
     ) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        return Jwts.builder()
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey())  // ← Algorithmus wird automatisch erkannt
                 .compact();
     }
-    
+
+
     public boolean isTokenValid(String token, org.springframework.security.core.userdetails.UserDetails userDetails) {
         if (token == null || token.trim().isEmpty()) {
             return false;
@@ -69,14 +70,21 @@ public class JwtService {
     }
     
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
+        return Jwts.parser()
+                .verifyWith((SecretKey) getSignInKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)  // ← Auch hier modernisiert
+                .getPayload();
     }
-    
+
+//      return Jwts
+//                .parserBuilder()
+//                .setSigningKey(getSignInKey())
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+
+
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

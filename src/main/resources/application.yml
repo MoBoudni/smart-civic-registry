@@ -2,13 +2,20 @@ spring:
   application:
     name: smart-civic-registry
 
-  # DATABASE CONFIGURATION - H2 für Entwicklung
+  # DATABASE CONFIGURATION - H2 für Entwicklung + HIKARI OPTIMIZED
   datasource:
     url: jdbc:h2:mem:smartcivicdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
     driver-class-name: org.h2.Driver
     username: sa
-    password: 
-    
+    password: ""
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      leak-detection-threshold: 60000  # 1min
+      connection-timeout: 20000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -17,11 +24,29 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
     show-sql: true
-    
+
   h2:
     console:
       enabled: true
       path: /h2-console
+
+  # MONITORING - Actuator Endpoints (KORRIGIERT!)
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info,metrics,prometheus,loggers
+        base-path: /actuator  # ← IMMER /actuator (unabhängig von context-path)
+    endpoint:
+      health:
+        show-details: always
+
+  # OAUTH2 RESOURCE SERVER CONFIGURATION
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://your-auth-server.com  # ← Markdown entfernt
 
 # JWT CONFIGURATION - WICHTIG für JwtProperties
 jwt:
@@ -31,8 +56,15 @@ jwt:
 # CORS CONFIGURATION - Für WebMvcConfig
 app:
   security:
-    allowed-origins: http://localhost:3000,http://localhost:8080
-    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:8080
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
     allowed-headers: "*"
     allow-credentials: true
     max-age: 3600
@@ -41,10 +73,19 @@ app:
 server:
   port: 8080
   servlet:
-    context-path: /api
+    context-path: /api  # ← REST API unter /api/*
+
+# INFO für Actuator
+info:
+  app:
+    name: Smart Civic Registry
+    version: 1.0.0-SNAPSHOT
+    java-version: 17
 
 # LOGGING CONFIGURATION
 logging:
   level:
     root: INFO
     de.behoerde.smartcivicregistry: DEBUG
+    org.springframework.ai: WARN
+    org.vaadin: WARN
