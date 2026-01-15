@@ -1,3 +1,24 @@
 spring:
   security:
     enabled: false  # Temporär ausschalten
+
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics,prometheus,loggers
+          base-path: /actuator
+      endpoint:
+        health:
+          show-details: always
+        metrics:
+          enabled: true
+      info:
+        env:
+          enabled: true
+
+    info:
+      app:
+        name: Smart Civic Registry
+        version: 1.0.0-SNAPSHOT
+        java-version: 17
